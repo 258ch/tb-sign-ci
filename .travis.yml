@@ -2,9 +2,9 @@ language: python
 python: 3.6
 
 install:
-    pip install -r requirement.txt
+  - pip install -r requirement.txt
     
 script:
-    echo "${BDUSS}" > cookie
-    python main.py
+  - echo "${BDUSS}" > cookie
+  - python main.py
     
