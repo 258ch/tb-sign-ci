@@ -140,6 +140,22 @@ def get_un(cookie):
     return j['raw_name']
     
 def tb_sign(cookie, tb_name):
+    '''
+    参数
+    ----
+    cookie: str
+        贴吧 Cookie，格式为 BDUSS.{192}。
+    tb_name: str
+        贴吧名称。
+    
+    返回值
+    ------
+    out: dict
+    out['error_code']: str
+        表示是否成功，0 为成功，其余为不成功。
+    out['error_msg']: str, 可选
+        错误信息，不成功时出现。
+    '''
     tbs = get_tbs(cookie)
     fid = get_fid(tb_name)
     
