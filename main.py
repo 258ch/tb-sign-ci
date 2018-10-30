@@ -10,7 +10,7 @@ def main():
         print('Cookie 不存在')
         return
     with open('cookie') as f:
-        cookie = f.read()
+        cookie = f.read().strip()
     # 检查是否掉线
     if not test_login(cookie):
         print('Cookie 已掉线')
