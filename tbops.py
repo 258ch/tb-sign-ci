@@ -23,6 +23,17 @@ def urlencode(s):
     return ''.join(res).upper()
 
 def get_tbs(cookie):
+    '''
+    参数
+    ----
+    cookie: str
+        贴吧 Cookie，格式为 BDUSS.{192}。
+    
+    返回值
+    ------
+    out: str 或 None
+        成功时为 tbs，失败时为 None。
+    '''
     hdr = default_hdr.copy()
     hdr['Cookie'] = cookie
 
@@ -33,24 +44,61 @@ def get_tbs(cookie):
     return j['tbs']
     
 def test_login(cookie):
+    '''
+    参数
+    ----
+    cookie: str
+        贴吧 Cookie，格式为 BDUSS.{192}。
+    
+    返回值
+    ------
+    out: bool
+        是否已登录。
+    '''
     return get_tbs(cookie) is not None
     
 def get_fid(tb_name):
-
+    '''
+    参数
+    ----
+    tb_name: str
+        贴吧名称。
+    
+    返回值
+    ------
+    out: str
+        贴吧 FID。
+    '''
     url = "http://tieba.baidu.com/f/commit/share/fnameShareApi?fname=" \
         + urlencode(tb_name) + "&ie=utf-8"
-    res_str = requests.get(url).text
+    res_str = requests.get(url, headers=default_hdr).text
     j = json.loads(res_str)
     return str(j["data"]["fid"])
 
 def get_tb_list(cookie):
+    '''
+    参数
+    ----
+    cookie: str
+        贴吧 Cookie，格式为 BDUSS.{192}。
     
+    返回值
+    ------
+    out: dict
+    out['errno']: str
+        表示是否成功，"0" 为成功，其余为不成功。
+    out['list']: list, 可选
+        贴吧列表，成功时出现。
+    out['errmsg']: str, 可选
+        错误信息，不成功时出现。
+    '''
     post_str = cookie + "&_client_id=&_client_type=2&_client_version=5.7.0" \
         + "&_phone_imei=000000000000000&from=tieba"
     sign = md5(post_str.replace("&", "") + "tiebaclient!!!")
     post_str += "&sign=" + sign
     
-    res_str = requests.post("http://c.tieba.baidu.com/c/f/forum/like", data=post_str).text
+    res_str = requests.post("http://c.tieba.baidu.com/c/f/forum/like", \
+        data=post_str, headers=default_hdr).text
     j = json.loads(res_str)
     
     errno = j["error_code"]
@@ -68,10 +116,22 @@ def get_tb_list(cookie):
     return {"errno": "0", "list": li}
     
 def get_un(cookie):
+    '''
+    参数
+    ----
+    cookie: str
+        贴吧 Cookie，格式为 BDUSS.{192}。
+    
+    返回值
+    ------
+    out: str 或 None
+        成功时为用户名，不成功时为 None。
+    '''
     hdr = default_hdr.copy()
     hdr['Cookie'] = cookie
     
-    res_str = requests.get('http://tieba.baidu.com/i/sys/user_json', headers=hdr).content.decode('gbk')
+    res_str = requests.get('http://tieba.baidu.com/i/sys/user_json', headers=hdr) \
+        .content.decode('gbk')
     
     if res_str == "":
         return None
@@ -94,6 +154,7 @@ def tb_sign(cookie, tb_name):
         + fid + "&from=tieba&kw=" \
         + urlencode(tb_name) + "&net_type=1&tbs=" + tbs \
         + "&sign=" + sign
-    res_str = requests.post('http://c.tieba.baidu.com/c/c/forum/sign', data=post_str).text
+    res_str = requests.post('http://c.tieba.baidu.com/c/c/forum/sign', \
+        data=post_str, headers=default_hdr).text
     j = json.loads(res_str)
     return j
