@@ -2,6 +2,7 @@
 
 from tbops import *
 import os.path
+import sys
 import time
 
 def main():
@@ -28,7 +29,7 @@ def main():
             print(tb + '吧签到失败：' + res['error_msg'])
         else:
             print(tb + '吧签到成功')
-        
+        sys.stdout.flush()
         time.sleep(1)
 
 if __name__ == '__main__':
