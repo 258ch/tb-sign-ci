@@ -109,10 +109,12 @@ def get_tb_list(cookie):
         return {"errno": "1", "errmsg": "用户未登录或已掉线"}
     
     li = []
-    for elem in j['forum_list']['non-gconforum']:
-        li.append(elem['name'])
-    for elem in j['forum_list']['gconforum']:
-        li.append(elem['name'])
+    if 'non-gconforum' in j['forum_list']:
+        for elem in j['forum_list']['non-gconforum']:
+            li.append(elem['name'])
+    if 'gconforum' in j['forum_list']:
+        for elem in j['forum_list']['gconforum']:
+            li.append(elem['name'])
     return {"errno": "0", "list": li}
     
 def get_un(cookie):
