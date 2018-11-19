@@ -17,7 +17,27 @@ python main.py
 
 ### Travis CI
 
-（待补充）
+1）fork 这个项目
+
+2）更新`.travis.yml`的`env.global`部分。
+
++   `GH_UN`：你的 Github 用户名（用于提交）
++   `GH_EMAIL`：你的 Github 邮箱（用于提交）
++   `GH_USER`：仓库所在的用户
++   `GH_REPO`：仓库名称
++   `GH_BRANCH`：要提交的分支
+
+3）访问`travis-ci.org/{用户名}/{仓库}`，开启 CI。
+
+![](http://ww1.sinaimg.cn/large/841aea59ly1fxd7aw17xtj20n50ig759.jpg)
+
+4）在环境变量中设置`BDUSS`，格式为`BDUSS=.{192}`，获取方法见下一节。
+
+![](http://ww1.sinaimg.cn/large/841aea59ly1fxd7pe6becj213b0apq3p.jpg)
+
+5）设置 CRON。
+
+![](http://ww1.sinaimg.cn/large/841aea59ly1fxd7cctc2vj212y059jrg.jpg)
 
 ## 获取Cookie（Chrome）
 
